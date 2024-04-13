@@ -9,11 +9,12 @@ CREATE TABLE IF NOT EXISTS Utente (
 -- Creazione della tabella Account
 CREATE TABLE IF NOT EXISTS Account (
     ID_account INT PRIMARY KEY,
-    parolasegreta VARCHAR(100),
+    password_hash VARCHAR(100),
     ID_utente INT,
-    ID_scheda VARCHAR(100),
+    nomeutente VARCHAR(50),
     FOREIGN KEY (ID_utente) REFERENCES Utente(ID_utente)
 );
+
 
 -- Creazione della tabella PR (Personal Record)
 CREATE TABLE IF NOT EXISTS PR (
