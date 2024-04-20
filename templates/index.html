@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-white">
+
 <head>
     <title>Login o Registrazione</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Benvenuto!</h1>
-    <p>Scegli cosa vuoi fare:</p>
-    <a href="/login">Accedi</a><br>
-    <a href="/register">Crea un nuovo account</a>
+
+<body class="h-full">
+    <div class="flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
+        <h1 class="text-4xl font-bold mb-4">Benvenuto!</h1>
+        <p class="text-lg mb-6">Scegli cosa vuoi fare:</p>
+        <a href="/login"
+            class="bg-indigo-600 text-white px-6 py-2 rounded-md text-lg font-semibold hover:bg-indigo-500 mb-2">Accedi</a><br>
+        <a href="/register"
+            class="bg-indigo-600 text-white px-6 py-2 rounded-md text-lg font-semibold hover:bg-indigo-500">Crea un nuovo
+            account</a>
+    </div>
 </body>
+
 </html>

@@ -37,17 +37,26 @@ def login():
 
         conn = sq.connect('db.sqlite3')
         cur = conn.cursor()
-        cur.execute("SELECT * FROM Account WHERE ID_account=?", (username,))
+        cur.execute("SELECT password_hash FROM Account WHERE ID_account=?", (username,))
         user = cur.fetchone()
         conn.close()
 
-        if user and check_password(user[1], password):
+        if user and check_password(user[0], password):
             session['username'] = username
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))  # Corretto il nome della funzione a cui reindirizzare
         else:
             return 'Invalid username or password'
 
     return render_template('login.html')
+
+@app.route('/home')
+def home():
+    if 'username' in session:
+        return render_template('home.html')
+    else:
+        return redirect(url_for('login'))
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -66,7 +75,8 @@ def register():
         conn.commit()
         conn.close()
 
-        return 'Account registered successfully'
+        # Redirect to index page after successful registration
+        return redirect(url_for('index'))
 
     return render_template('register.html')
 
