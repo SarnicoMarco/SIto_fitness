@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inserisci Allenamento</title>
+</head>
+<body>
+    <h1>Inserisci un nuovo allenamento</h1>
+    
+    <form action="/aggiungi-allenamento" method="POST">
+        <label for="data">Data:</label>
+        <input type="date" id="data" name="data" required><br><br>
+        
+        <label for="tipo">Tipo di allenamento:</label>
+        <select id="tipo" name="tipo" required>
+            <option value="gambe">gambe</option>
+            <option value="petto">petto</option>
+            <option value="schiena">schiena</option>
+
+        </select><br><br>
+        
+        <input type="submit" value="Inserisci">
+    </form>
+</body>
+</html>
