@@ -1,6 +1,7 @@
 import sqlite3 as sq
 import bcrypt
 from flask import Flask, render_template, request, redirect, url_for, session
+import uuid
 
 
 app = Flask(__name__)
@@ -56,22 +57,38 @@ def home():
     else:
         return redirect(url_for('login'))
 
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        ID_account = request.form['ID_account']
+        ID_account = generate_id()  # Generate ID for the account
         password = request.form['password']
-        ID_utente = request.form['ID_utente']
+        ID_utente = generate_id()  # Generate ID for the user
         nomeutente = request.form['nomeutente']
+        email = request.form['email']
+        nome = request.form['nome']
+        cognome = request.form['cognome']
 
+        # Hash the password
         password_hash = hash_password(password)
 
+        # Check if email and nomeutente already exist in the database
         conn = sq.connect('db.sqlite3')
         cur = conn.cursor()
+        cur.execute("SELECT * FROM Utente WHERE email=? ", (email,))
+        cur.execute("SELECT * FROM Account WHERE nomeutente=?", (nomeutente,))
+        existing_user = cur.fetchone()
+
+        if existing_user:
+            conn.close()
+            return 'Email or nomeutente already exists'
+
+        # Insert data into Account table
         cur.execute("INSERT INTO Account (ID_account, password_hash, ID_utente, nomeutente) VALUES (?, ?, ?, ?)", 
                     (ID_account, password_hash, ID_utente, nomeutente))
+        
+        # Insert data into Utente table
+        cur.execute("INSERT INTO Utente (ID_utente, nome, cognome, email) VALUES (?, ?, ?, ?)", 
+                    (ID_utente, nome, cognome, email))
         conn.commit()
         conn.close()
 
@@ -79,6 +96,14 @@ def register():
         return redirect(url_for('index'))
 
     return render_template('register.html')
+
+def generate_id():
+    unique_id = str(uuid.uuid4())
+    return unique_id
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
