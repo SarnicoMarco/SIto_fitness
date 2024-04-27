@@ -25,11 +25,18 @@ CREATE TABLE IF NOT EXISTS PR (
     FOREIGN KEY (ID_account) REFERENCES Account(ID_account)
 );
 
+-- Creazione della tabella Allenamento
+CREATE TABLE IF NOT EXISTS Allenamento (
+    ID_allenamento INT PRIMARY KEY,
+    ID_account INT,
+    FOREIGN KEY (ID_account) REFERENCES Account(ID_account)
+);
+
 -- Creazione della tabella Scheda
 CREATE TABLE IF NOT EXISTS Scheda (
     ID_scheda INT PRIMARY KEY,
-    ID_account INT,
-    FOREIGN KEY (ID_account) REFERENCES Account(ID_account)
+    ID_allenamento INT,
+    FOREIGN KEY (ID_allenamento) REFERENCES Account(ID_allenamento)
 );
 
 -- Creazione della tabella Esercizio

@@ -38,7 +38,7 @@ def login():
 
         conn = sq.connect('db.sqlite3')
         cur = conn.cursor()
-        cur.execute("SELECT password_hash FROM Account WHERE ID_account=?", (username,))
+        cur.execute("SELECT password_hash FROM Account WHERE nomeutente=?", (username,))
         user = cur.fetchone()
         conn.close()
 
@@ -74,8 +74,8 @@ def register():
         # Check if email and nomeutente already exist in the database
         conn = sq.connect('db.sqlite3')
         cur = conn.cursor()
-        cur.execute("SELECT * FROM Utente WHERE email=? ", (email,))
-        cur.execute("SELECT * FROM Account WHERE nomeutente=?", (nomeutente,))
+        cur.execute("SELECT * FROM Utente WHERE email=? ", (email))
+        cur.execute("SELECT * FROM Account WHERE nomeutente=?", (nomeutente))
         existing_user = cur.fetchone()
 
         if existing_user:
@@ -102,8 +102,42 @@ def generate_id():
     return unique_id
 
 
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+# Pagina iniziale per l'aggiunta del PR
+@app.route('/aggiungi_pr', methods=['GET'])
+def aggiungi_pr():
+    return render_template('aggiungi_pr.html')
+
+# Endpoint per gestire la richiesta di aggiunta del PR
+@app.route('/add_pr', methods=['POST'])
+def add_pr():
+    if request.method == 'POST':
+        # Ottenere i dati dal modulo HTML
+        esercizio = request.form['esercizio']
+        peso = request.form['peso']
+        data = request.form['data'] 
+        conn = sq.connect('db.sqlite3')
+        cur = conn.cursor()
+        cur.execute("INSERT INTO Utente (esercizio,data, peso) VALUES (?, ?, ?)", 
+                    (esercizio, data, peso))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('home'))
+
+
+
+
+
+
+
 
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+

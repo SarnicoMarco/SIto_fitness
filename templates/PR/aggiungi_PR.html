@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="h-full bg-white">
+
+<head>
+    <title>Aggiungi PR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-full">
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <img class="mx-auto h-auto w-auto"
+                src="./static/img/dumbell.jpg" alt="Your Company">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Aggiungi PR</h2>
+        </div>
+
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form action="/add_pr" method="POST" class="space-y-6">
+                <!-- Campi per l'inserimento dei dati -->
+                <!-- Campi per la tabella Esercizio -->
+                <div>
+                    <label for="esercizio" class="block text-sm font-medium leading-6 text-gray-900">Esercizio:</label>
+                    <input type="text" id="esercizio" name="esercizio"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+                <!-- Campi per la tabella PR -->
+                <div>
+                    <label for="peso" class="block text-sm font-medium leading-6 text-gray-900">Peso:</label>
+                    <input type="text" id="peso" name="peso"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+                <!-- Aggiungi altri campi per gli altri dati delle tabelle -->
+
+                <div>
+                    <button type="submit"
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Aggiungi il tuo PR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
