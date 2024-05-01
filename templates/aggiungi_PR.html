@@ -10,12 +10,12 @@
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img class="mx-auto h-auto w-auto"
-                src="./static/img/dumbell.jpg" alt="Your Company">
+                src="{{ url_for('static', filename='img/dumbell.jpg') }}" alt="Your Company"> <!-- Modificato il percorso dell'immagine -->
             <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Aggiungi PR</h2>
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form action="/add_pr" method="POST" class="space-y-6">
+            <form action="{{ url_for('aggiungi_PR') }}" method="POST" class="space-y-6"> <!-- Modificato l'attributo action del form -->
                 <!-- Campi per l'inserimento dei dati -->
                 <!-- Campi per la tabella Esercizio -->
                 <div>
