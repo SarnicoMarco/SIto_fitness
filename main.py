@@ -112,29 +112,39 @@ def generate_id():
 
 
     
-
 @app.route('/aggiungi_PR', methods=['POST', 'GET'])
 def aggiungi_PR():
     if request.method == 'POST':
         try:
             # Ottenere i dati dal modulo HTML
-            ID_pr = generate_id()
             esercizio = request.form['esercizio']
             peso = request.form['peso']
             account_id = session.get('account_id')  # Recupera l'ID dell'account dalla sessione
             
             conn = sq.connect('db.sqlite3')
             cur = conn.cursor()
-            cur.execute("INSERT INTO PR (ID_pr, esercizio, peso, ID_account) VALUES (?, ?, ? , ?)", 
-                        (ID_pr, esercizio, peso, account_id))  # Aggiungi l'ID dell'account al PR
+
+            # Verifica se l'esercizio esiste già per quell'account
+            cur.execute("SELECT * FROM PR WHERE esercizio=? AND ID_account=?", (esercizio, account_id))
+            existing_pr = cur.fetchone()
+
+            if existing_pr:
+                # Se l'esercizio esiste già, esegui un aggiornamento
+                cur.execute("UPDATE PR SET peso=? WHERE esercizio=? AND ID_account=?", (peso, esercizio, account_id))
+            else:
+                # Se l'esercizio non esiste, inseriscilo
+                ID_pr = generate_id()
+                cur.execute("INSERT INTO PR (ID_pr, esercizio, peso, ID_account) VALUES (?, ?, ?, ?)", 
+                            (ID_pr, esercizio, peso, account_id))
+
             conn.commit()
             conn.close()
             return redirect(url_for('home'))
         except Exception as e:
             # Stampa l'errore per il debug
-            print("Errore durante l'inserimento del PR:", str(e))
+            print("Errore durante l'inserimento o l'aggiornamento del PR:", str(e))
             # Puoi anche registrare l'errore in un file di log o visualizzarlo nel browser per il debug
-            return "Errore durante l'inserimento del PR"
+            return "Errore durante l'inserimento o l'aggiornamento del PR"
     return render_template('aggiungi_PR.html')
 
 
