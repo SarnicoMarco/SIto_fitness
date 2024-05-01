@@ -110,12 +110,10 @@ def generate_id():
     return unique_id
 
 
-# Pagina iniziale per l'aggiunta del PR
-@app.route('/aggiungi_pr', methods=['GET'])
-def aggiungi_pr():
-    return render_template('aggiungi_pr.html')
 
-@app.route('/add_pr', methods=['POST'])
+    
+
+@app.route('/aggiungi_PR', methods=['POST', 'GET'])
 def add_pr():
     if request.method == 'POST':
         # Ottenere i dati dal modulo HTML
@@ -131,7 +129,7 @@ def add_pr():
         conn.commit()
         conn.close()
         return redirect(url_for('home'))
-
+    return render_template('aggiungi_PR.html')
 
 def get_account_id(username):
     conn = sq.connect('db.sqlite3')
