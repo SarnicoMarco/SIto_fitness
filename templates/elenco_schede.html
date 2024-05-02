@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elenco Schede</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-4">
+    <h1 class="text-2xl font-bold mb-4">Elenco Schede</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Loop through allenamenti and display them -->
+        {% for allenamento in allenamenti %}
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold mb-2">{{ allenamento.obbiettivo_allenamento }}</h2>
+            <p class="text-gray-600">{{ allenamento.data }}</p>
+            <!-- Add more information about the allenamento if needed -->
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

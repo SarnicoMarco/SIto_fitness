@@ -29,12 +29,14 @@ CREATE TABLE IF NOT EXISTS PR (
 CREATE TABLE IF NOT EXISTS Allenamento (
     ID_allenamento INT PRIMARY KEY,
     ID_account INT,
+    obbiettivo_allenamento VARCHAR(50),
+    num_schede INT,
     FOREIGN KEY (ID_account) REFERENCES Account(ID_account)
 );
 
 -- Creazione della tabella Scheda
 CREATE TABLE IF NOT EXISTS Scheda (
-    ID_scheda INT PRIMARY KEY,
+    tipo_scheda VARCHAR(50) PRIMARY KEY,
     ID_allenamento INT,
     FOREIGN KEY (ID_allenamento) REFERENCES Account(ID_allenamento)
 );

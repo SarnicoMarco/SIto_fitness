@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserisci Serie</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mt-8 mb-4">Inserisci Serie</h1>
+        <form action="/inserisci_serie" method="POST" class="max-w-md">
+            <!-- Form per l'inserimento delle serie -->
+            <div class="mb-4">
+                <label for="n_serie" class="block text-gray-700 font-bold">Numero di Serie</label>
+                <input type="number" id="n_serie" name="n_serie" class="form-input mt-1 block w-full"
+                    placeholder="Inserisci il numero di serie" required>
+            </div>
+            <!-- Altri campi per l'inserimento delle serie -->
+            <!-- Puoi aggiungere altri campi come necessario -->
+            <button type="submit"
+                class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Inserisci
+                Serie</button>
+        </form>
+    </div>
+</body>
+
+</html>

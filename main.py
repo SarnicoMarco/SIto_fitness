@@ -162,6 +162,219 @@ def get_account_id(username):
 
 
 
+#INSERIMENTO ALLENAMENTI
+@app.route('/inserisci_allenamento', methods=['GET', 'POST'])
+def inserisci_allenamento():
+    if request.method == 'POST':
+        try:
+            # Ottenere l'ID dell'account dalla sessione
+            account_id = session.get('account_id')
+
+            # Ottenere i dati dall'HTML
+            obbiettivo_allenamento = request.form['obbiettivo_allenamento']
+            num_schede = int(request.form['num_schede'])
+            session['num_schede'] = num_schede
+
+            # Generare un ID univoco per l'allenamento
+            ID_allenamento = generate_id()
+
+            # Connessione al database
+            conn = sq.connect('db.sqlite3')
+            cur = conn.cursor()
+
+            # Inserisci i dati dell'allenamento
+            cur.execute("INSERT INTO Allenamento (ID_allenamento, ID_account, obbiettivo_allenamento, num_schede) VALUES (?, ?, ?, ?)",
+                        (ID_allenamento, account_id, obbiettivo_allenamento, num_schede))
+
+            conn.commit()
+            conn.close()
+
+            # Memorizza l'ID_allenamento nella sessione per il passaggio successivo
+            session['ID_allenamento'] = ID_allenamento
+
+            # Reindirizza alla pagina successiva per l'inserimento delle schede
+            return redirect(url_for('inserisci_serie'))
+        except Exception as e:
+            print("Errore durante l'inserimento dell'allenamento:", str(e))
+            return "Errore durante l'inserimento dell'allenamento"
+    return render_template('allenamenti/inserisci_allenamento.html')
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/inserisci_esercizi', methods=['GET', 'POST'])
+def inserisci_esercizi():
+    num_schede = session.get('num_schede')
+
+    if request.method == 'POST':
+        try:
+            for i in range(1, num_schede + 1):
+                # Ottenere i dati dell'esercizio dal modulo HTML
+                nome_esercizio = request.form[f'nome_esercizio_{i}']
+                descrizione_esercizio = request.form[f'descrizione_esercizio_{i}']
+
+                # Inserisci i dati dell'esercizio nel database
+
+                # Ottenere l'ID_scheda dalla sessione
+                ID_scheda = session.get(f'ID_scheda_{i}')
+
+                conn = sq.connect('db.sqlite3')
+                cur = conn.cursor()
+
+                cur.execute("INSERT INTO Esercizio (nome_esercizio, descrizione_esercizio, ID_scheda) VALUES (?, ?, ?)",
+                            (nome_esercizio, descrizione_esercizio, ID_scheda))
+
+                conn.commit()
+                conn.close()
+
+            # Reindirizza alla pagina successiva per l'inserimento delle serie
+            return redirect(url_for('inserisci_serie'))
+        except Exception as e:
+            print("Errore durante l'inserimento degli esercizi:", str(e))
+            return "Errore durante l'inserimento degli esercizi"
+    return render_template('allenamenti/inserisci_esercizi.html', num_schede=num_schede)
+
+
+
+
+@app.route('/inserisci_serie', methods=['GET', 'POST'])
+def inserisci_serie():
+    num_schede = session.get('num_schede')
+
+    if request.method == 'POST':
+        try:
+            for i in range(1, num_schede + 1):
+                num_esercizi_scheda = int(request.form[f'num_esercizi_scheda_{i}'])
+                session[f'num_esercizi_scheda_{i}'] = num_esercizi_scheda
+
+            # Reindirizza alla pagina successiva per l'inserimento delle ripetizioni
+            return redirect(url_for('inserisci_ripetizioni'))
+        except Exception as e:
+            print("Errore durante l'inserimento delle serie:", str(e))
+            return "Errore durante l'inserimento delle serie"
+    return render_template('allenamenti/inserisci_serie.html', num_schede=num_schede)
+
+
+@app.route('/inserisci_ripetizioni', methods=['GET', 'POST'])
+def inserisci_ripetizioni():
+    num_schede = session.get('num_schede')
+    try:
+        for i in range(1, num_schede + 1):
+            num_esercizi_scheda = session.get(f'num_esercizi_scheda_{i}')
+            for j in range(1, num_esercizi_scheda + 1):
+                num_serie = int(request.form[f'num_serie_scheda_{i}_esercizio_{j}'])
+                nome_esercizio = request.form[f'nome_esercizio_scheda_{i}_esercizio_{j}']
+
+                conn = sq.connect('db.sqlite3')
+                cur = conn.cursor()
+
+                # Inserisci le serie nel database
+                for k in range(1, num_serie + 1):
+                    cur.execute("INSERT INTO Serie (n_serie, nome_esercizio) VALUES (?, ?)",
+                                (k, nome_esercizio))
+                    serie_id = cur.lastrowid
+                    n_ripetizioni = request.form[f'n_ripetizioni_serie_scheda_{i}_esercizio_{j}_serie_{k}']
+                    tempo_concentrica = request.form[f'tempo_concentrica_serie_scheda_{i}_esercizio_{j}_serie_{k}']
+                    tempo_eccentrica = request.form[f'tempo_eccentrica_serie_scheda_{i}_esercizio_{j}_serie_{k}']
+
+                    # Inserisci le ripetizioni della serie nel database
+                    cur.execute("INSERT INTO Ripetizioni_serie (n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica, ID_serie) VALUES (?, ?, ?, ?)",
+                                (n_ripetizioni, tempo_concentrica, tempo_eccentrica, serie_id))
+
+                conn.commit()
+                conn.close()
+
+        # Rimuovi i dati dalla sessione dopo l'inserimento
+        session.pop('num_schede', None)
+        for i in range(1, num_schede + 1):
+            session.pop(f'num_esercizi_scheda_{i}', None)
+
+        # Reindirizza alla pagina di conferma
+        return redirect(url_for('conferma_inserimento'))
+    except Exception as e:
+        print("Errore durante l'inserimento delle ripetizioni:", str(e))
+        return "Errore durante l'inserimento delle ripetizioni"
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/conferma_inserimento')
+def conferma_inserimento():
+    try:
+        # Ottieni l'ID dell'allenamento dalla sessione
+        ID_allenamento = session.get('ID_allenamento')
+        obbiettivo_allenamento = session.get('obbiettivo_allenamento')
+
+        # Connessione al database
+        conn = sq.connect('db.sqlite3')
+        cur = conn.cursor()
+
+        # Ottieni i dati dell'allenamento
+        cur.execute("SELECT * FROM Allenamento WHERE ID_allenamento=?", (ID_allenamento,))
+        allenamento = cur.fetchone()
+
+        conn.close()
+
+        if allenamento:
+            # Visualizza i dati dell'allenamento
+            return render_template('allenamenti/conferma_inserimento.html', allenamento=allenamento)
+        else:
+            return "Errore: Allenamento non trovato."
+
+    except Exception as e:
+        print("Errore durante la conferma dell'inserimento:", str(e))
+        return "Errore durante la conferma dell'inserimento"
+
+
+@app.route('/elenco_schede')
+def elenco_schede():
+    try:
+        # Ottenere l'ID dell'account dalla sessione
+        account_id = session.get('account_id')
+
+        # Connessione al database
+        conn = sq.connect('db.sqlite3')
+        cur = conn.cursor()
+
+        # Ottenere gli allenamenti collegati all'account in sessione
+        cur.execute("SELECT * FROM Allenamento WHERE ID_account=?", (account_id,))
+        allenamenti = cur.fetchall()
+
+        conn.close()
+
+        # Renderizza la pagina con gli allenamenti ottenuti
+        return render_template('elenco_schede.html', allenamenti=allenamenti)
+    except Exception as e:
+        print("Errore durante il recupero degli allenamenti:", str(e))
+        return "Errore durante il recupero degli allenamenti"
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
