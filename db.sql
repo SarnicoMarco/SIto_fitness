@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS Allenamento (
 
 -- Creazione della tabella Scheda
 CREATE TABLE IF NOT EXISTS Scheda (
+    ID_scheda INT PRIMARY KEY,
     tipo_scheda VARCHAR(50) PRIMARY KEY,
     ID_allenamento INT,
     FOREIGN KEY (ID_allenamento) REFERENCES Account(ID_allenamento)
@@ -45,23 +46,13 @@ CREATE TABLE IF NOT EXISTS Scheda (
 CREATE TABLE IF NOT EXISTS Esercizio (
     nome_esercizio VARCHAR(100) PRIMARY KEY,
     ID_scheda INT,
+    n_serie varchar(50),
+    n_ripetizioni varchar(50),
+    tempo_fase_concentrica varchar(50),
+    tempo_fase_eccentrica varchar(50),
     FOREIGN KEY (ID_scheda) REFERENCES Scheda(ID_scheda)
 );
 
--- Creazione della tabella Serie
-CREATE TABLE IF NOT EXISTS Serie (
-    ID_serie INT PRIMARY KEY,
-    n_serie INT,
-    nome_esercizio VARCHAR(100),
-    FOREIGN KEY (nome_esercizio) REFERENCES Esercizio(nome_esercizio)
-);
 
--- Creazione della tabella Ripetizioni_serie
-CREATE TABLE IF NOT EXISTS Ripetizioni_serie (
-    id_ripetizione INT PRIMARY KEY,
-    n_ripetizioni INT,
-    tempo_fase_concentrica INT,
-    tempo_fase_eccentrica INT,
-    ID_serie INT,
-    FOREIGN KEY (ID_serie) REFERENCES Serie(ID_serie)
-);
+
+

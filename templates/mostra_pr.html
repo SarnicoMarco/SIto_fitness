@@ -1,0 +1,31 @@
+<!-- mostra_pr.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostra Personal Records</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-lg mx-auto bg-white rounded shadow-md p-8">
+        <h1 class="text-2xl font-bold mb-4">Elenco dei Personal Records</h1>
+        <ul>
+            {% for pr in pr_list %}
+            <li class="border-b border-gray-200 py-2">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span>Esercizio: {{ pr[1] }}</span><br>
+                        <span>Peso: {{ pr[2] }}</span>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% if not pr_list %}
+        <p class="text-gray-500 mt-4">Nessun Personal Record trovato.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
