@@ -162,6 +162,35 @@ def mostra_pr():
     return render_template('mostra_pr.html', pr_list=pr_list)
 
 
+def get_pr_leaderboard():
+    conn = sq.connect('db.sqlite3')
+    cursor = conn.cursor()
+
+    # Query per ottenere il PR massimo per ogni esercizio con il nome utente e il nickname
+    cursor.execute("""
+        SELECT PR.esercizio, PR.peso, Account.nomeutente
+        FROM PR
+        INNER JOIN Account ON PR.ID_account = Account.ID_account
+        WHERE (PR.esercizio, PR.peso) IN (
+            SELECT esercizio, MAX(peso)
+            FROM PR
+            GROUP BY esercizio
+        )
+    """)
+    pr_leaderboard = cursor.fetchall()
+
+    conn.close()
+    return pr_leaderboard
+
+@app.route('/classifica_pr')
+def classifica_pr():
+    # Ottieni i dati della classifica dei PR
+    pr_leaderboard = get_pr_leaderboard()
+    # Passa i dati alla pagina HTML utilizzando il metodo render_template
+    return render_template('classifica_pr.html', pr_leaderboard=pr_leaderboard)
+
+
+
 def get_account_id(username):
     conn = sq.connect('db.sqlite3')
     cur = conn.cursor()
@@ -181,12 +210,13 @@ def inserisci_allenamento():
     cursor = conn.cursor()
     if request.method == 'POST':
         # Recupera l'ID dell'account dalla sessione
+        id_allenamento=generate_id()
         id_account = session.get('account_id')
         # Inserisci l'allenamento nel database
         obiettivo_allenamento = request.form['obiettivo_allenamento']
         num_schede = int(request.form['num_schede'])
-        cursor.execute("INSERT INTO Allenamento (ID_account, obbiettivo_allenamento, num_schede) VALUES (?, ?, ?)",
-                       (id_account, obiettivo_allenamento, num_schede))
+        cursor.execute("INSERT INTO Allenamento (ID_allenamento, ID_account, obbiettivo_allenamento, num_schede) VALUES (?,?, ?, ?)",
+                       (id_allenamento,id_account, obiettivo_allenamento, num_schede))
         conn.commit()
 
         # Ottieni l'ID dell'allenamento appena inserito
@@ -194,22 +224,24 @@ def inserisci_allenamento():
 
         # Inserisci le schede per l'allenamento
         for i in range(1, num_schede + 1):
+            id_scheda=generate_id()
             tipo_scheda = request.form[f'tipo_scheda_{i}']
-            cursor.execute("INSERT INTO Scheda (tipo_scheda, ID_allenamento) VALUES (?, ?)",
-                           (tipo_scheda, id_allenamento))
+            cursor.execute("INSERT INTO Scheda (ID_scheda,tipo_scheda, ID_allenamento) VALUES (?, ?, ?)",
+                           (id_scheda,tipo_scheda, id_allenamento))
             conn.commit()
             id_scheda = cursor.lastrowid
 
             # Inserisci gli esercizi per la scheda
             num_esercizi = int(request.form[f'num_esercizi_{i}'])
             for j in range(1, num_esercizi + 1):
+                id_esercizio=generate_id()
                 nome_esercizio = request.form[f'nome_esercizio_{i}_{j}']
                 n_serie = request.form[f'n_serie_{i}_{j}']
                 n_ripetizioni = request.form[f'n_ripetizioni_{i}_{j}']
                 tempo_fase_concentrica = request.form[f'tempo_fase_concentrica_{i}_{j}']
                 tempo_fase_eccentrica = request.form[f'tempo_fase_eccentrica_{i}_{j}']
-                cursor.execute("INSERT INTO Esercizio (nome_esercizio, ID_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica) VALUES (?, ?, ?, ?, ?, ?)",
-                               (nome_esercizio, id_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica))
+                cursor.execute("INSERT INTO Esercizio (id_esercizio,nome_esercizio, ID_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica) VALUES (?,?, ?, ?, ?, ?, ?)",
+                               (id_esercizio,nome_esercizio, id_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica))
                 conn.commit()
 
         return redirect('home')  # Reindirizza alla dashboard dopo l'inserimento
@@ -225,21 +257,51 @@ def logout():
     # Reindirizza l'utente alla pagina di accesso
     return redirect(url_for('login'))
 
+# Funzione per ottenere i dati dell'utente e dell'account dal database
+def get_user_data():
+    conn = sq.connect('db.sqlite3')
+    cur = conn.cursor()
 
+    # Ottieni i dati dell'utente e dell'account
+    cur.execute("SELECT * FROM Utente INNER JOIN Account ON Utente.ID_utente = Account.ID_utente")
+    user_data = cur.fetchone()
 
+    conn.close()
 
+    # Verifica se i dati sono stati recuperati correttamente
+    if user_data:
+        utente = {
+            'ID_utente': user_data[0],
+            'nome': user_data[1],
+            'cognome': user_data[2],
+            'email': user_data[3]
+        }
+        account = {
+            'ID_account': user_data[4],
+            'password_hash': user_data[5],
+            'ID_utente': user_data[6],
+            'nomeutente': user_data[7]
+        }
+        return utente, account
+    else:
+        return None, None
 
+# Route per la pagina Utente
+@app.route('/utente')
+def utente():
+    # Ottieni i dati dell'utente e dell'account dal database
+    utente, account = get_user_data()
+    
+    # Se i dati non sono stati recuperati correttamente, restituisci una pagina di errore
+    if not utente or not account:
+        return render_template('errore.html', message="Errore nel recupero dei dati utente e account.")
 
-
-
-
-
-
-
-
+    # Renderizza la pagina HTML con i dati dell'utente e dell'account
+    return render_template('utente.html', utente=utente, account=account)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 

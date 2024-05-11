@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostra Allenamenti</title>
+</head>
+<body>
+    <h1>Allenamenti</h1>
+    <ul>
+        {% for allenamento in allenamenti %}
+            <li>
+                <strong>ID Allenamento:</strong> {{ allenamento['ID_allenamento'] }}<br>
+                <strong>ID Account:</strong> {{ allenamento['ID_account'] }}<br>
+                <strong>Obiettivo Allenamento:</strong> {{ allenamento['obbiettivo_allenamento'] }}<br>
+                <strong>Numero di Schede:</strong> {{ allenamento['num_schede'] }}<br>
+                {% if allenamento['schede'] %}
+                    <ul>
+                        {% for scheda in allenamento['schede'] %}
+                            <li>
+                                <strong>ID Scheda:</strong> {{ scheda['ID_scheda'] }}<br>
+                                <strong>Tipo Scheda:</strong> {{ scheda['tipo_scheda'] }}<br>
+                                <strong>ID Allenamento:</strong> {{ scheda['ID_allenamento'] }}<br>
+                                {% if scheda['esercizi'] %}
+                                    <ul>
+                                        {% for esercizio in scheda['esercizi'] %}
+                                            <li>
+                                                <strong>ID Esercizio:</strong> {{ esercizio['id_esercizio'] }}<br>
+                                                <strong>Nome Esercizio:</strong> {{ esercizio['nome_esercizio'] }}<br>
+                                                <strong>ID Scheda:</strong> {{ esercizio['ID_scheda'] }}<br>
+                                                <strong>Numero di Serie:</strong> {{ esercizio['n_serie'] }}<br>
+                                                <strong>Numero di Ripetizioni:</strong> {{ esercizio['n_ripetizioni'] }}<br>
+                                                <strong>Tempo Fase Concentrica:</strong> {{ esercizio['tempo_fase_concentrica'] }}<br>
+                                                <strong>Tempo Fase Eccentrica:</strong> {{ esercizio['tempo_fase_eccentrica'] }}<br>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p>Nessun esercizio disponibile per questa scheda.</p>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Nessuna scheda disponibile per questo allenamento.</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

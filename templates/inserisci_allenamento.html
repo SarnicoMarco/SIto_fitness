@@ -1,66 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+ 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inserisci Allenamento</title>
-    <script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inserisci Allenamento</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+        /* Aggiungi qui eventuali personalizzazioni di stile */
+</style>
+<script>
         function aggiungiCampiScheda() {
             var numSchede = document.getElementById("num_schede").value;
             var container = document.getElementById("schede_container");
             container.innerHTML = ""; // Pulisce i campi esistenti prima di aggiungere nuovi
-
+ 
             for (var i = 1; i <= numSchede; i++) {
                 var fieldset = document.createElement("fieldset");
-                fieldset.innerHTML = "<legend>Scheda " + i + "</legend>" +
-                    "<label for='tipo_scheda_" + i + "'>Tipo di Scheda:</label>" +
-                    "<input type='text' id='tipo_scheda_" + i + "' name='tipo_scheda_" + i + "' required><br><br>" +
-                    "<label for='num_esercizi_" + i + "'>Numero di Esercizi (max 10):</label>" +
-                    "<input type='number' id='num_esercizi_" + i + "' name='num_esercizi_" + i + "' min='1' max='10' onchange='aggiungiCampiEsercizio(" + i + ")' required><br><br>" +
+                fieldset.innerHTML = "<legend class='text-lg font-bold'>Scheda " + i + "</legend>" +
+                    "<label for='tipo_scheda_" + i + "' class='block mb-1'>Tipo di Scheda:</label>" +
+                    "<input type='text' id='tipo_scheda_" + i + "' name='tipo_scheda_" + i + "' required class='w-full px-3 py-2 mb-2 border rounded-md'>" +
+                    "<label for='num_esercizi_" + i + "' class='block mb-1'>Numero di Esercizi (max 10):</label>" +
+                    "<input type='number' id='num_esercizi_" + i + "' name='num_esercizi_" + i + "' min='1' max='10' onchange='aggiungiCampiEsercizio(" + i + ")' required class='w-full px-3 py-2 mb-2 border rounded-md'>" +
                     "<div id='esercizi_scheda_" + i + "'></div>"; // Contenitore per i campi degli esercizi
-
+ 
                 container.appendChild(fieldset);
             }
         }
-
+ 
         function aggiungiCampiEsercizio(numScheda) {
             var numEsercizi = document.getElementById("num_esercizi_" + numScheda).value;
             var container = document.getElementById("esercizi_scheda_" + numScheda);
             container.innerHTML = ""; // Pulisce i campi esistenti prima di aggiungere nuovi
-
+ 
             for (var j = 1; j <= numEsercizi; j++) {
                 var fieldset = document.createElement("fieldset");
-                fieldset.innerHTML = "<legend>Esercizio " + j + "</legend>" +
-                    "<label for='nome_esercizio_" + numScheda + "_" + j + "'>Nome Esercizio:</label>" +
-                    "<input type='text' id='nome_esercizio_" + numScheda + "_" + j + "' name='nome_esercizio_" + numScheda + "_" + j + "' required><br><br>" +
-                    "<label for='n_serie_" + numScheda + "_" + j + "'>Numero di Serie:</label>" +
-                    "<input type='text' id='n_serie_" + numScheda + "_" + j + "' name='n_serie_" + numScheda + "_" + j + "' required><br><br>" +
-                    "<label for='n_ripetizioni_" + numScheda + "_" + j + "'>Numero di Ripetizioni:</label>" +
-                    "<input type='text' id='n_ripetizioni_" + numScheda + "_" + j + "' name='n_ripetizioni_" + numScheda + "_" + j + "' required><br><br>" +
-                    "<label for='tempo_fase_concentrica_" + numScheda + "_" + j + "'>Tempo Fase Concentrica:</label>" +
-                    "<input type='text' id='tempo_fase_concentrica_" + numScheda + "_" + j + "' name='tempo_fase_concentrica_" + numScheda + "_" + j + "' required><br><br>" +
-                    "<label for='tempo_fase_eccentrica_" + numScheda + "_" + j + "'>Tempo Fase Eccentrica:</label>" +
-                    "<input type='text' id='tempo_fase_eccentrica_" + numScheda + "_" + j + "' name='tempo_fase_eccentrica_" + numScheda + "_" + j + "' required><br><br>";
-
+                fieldset.innerHTML = "<legend class='text-lg font-bold'>Esercizio " + j + "</legend>" +
+                    "<label for='nome_esercizio_" + numScheda + "_" + j + "' class='block mb-1'>Nome Esercizio:</label>" +
+                    "<input type='text' id='nome_esercizio_" + numScheda + "_" + j + "' name='nome_esercizio_" + numScheda + "_" + j + "' required class='w-full px-3 py-2 mb-2 border rounded-md'>" +
+                    "<label for='n_serie_" + numScheda + "_" + j + "' class='block mb-1'>Numero di Serie:</label>" +
+                    "<input type='text' id='n_serie_" + numScheda + "_" + j + "' name='n_serie_" + numScheda + "_" + j + "' required class='w-full px-3 py-2 mb-2 border rounded-md'>" +
+                    "<label for='n_ripetizioni_" + numScheda + "_" + j + "' class='block mb-1'>Numero di Ripetizioni:</label>" +
+                    "<input type='text' id='n_ripetizioni_" + numScheda + "_" + j + "' name='n_ripetizioni_" + numScheda + "_" + j + "' required class='w-full px-3 py-2 mb-2 border rounded-md'>" +
+                    "<label for='tempo_fase_concentrica_" + numScheda + "_" + j + "' class='block mb-1'>Tempo Fase Concentrica:</label>" +
+                    "<input type='text' id='tempo_fase_concentrica_" + numScheda + "_" + j + "' name='tempo_fase_concentrica_" + numScheda + "_" + j + "' required class='w-full px-3 py-2 mb-2 border rounded-md'>" +
+                    "<label for='tempo_fase_eccentrica_" + numScheda + "_" + j + "' class='block mb-1'>Tempo Fase Eccentrica:</label>" +
+                    "<input type='text' id='tempo_fase_eccentrica_" + numScheda + "_" + j + "' name='tempo_fase_eccentrica_" + numScheda + "_" + j + "' required class='w-full px-3 py-2 mb-2 border rounded-md'>";
+ 
                 container.appendChild(fieldset);
             }
         }
-    </script>
+</script>
 </head>
-<body>
-    <h1>Inserisci Allenamento</h1>
-    <form action="/inserisci_allenamento" method="POST">
-        <label for="obiettivo_allenamento">Obiettivo Allenamento:</label>
-        <input type="text" id="obiettivo_allenamento" name="obiettivo_allenamento" required><br><br>
-
-        <label for="num_schede">Numero di Schede (max 7):</label>
-        <input type="number" id="num_schede" name="num_schede" min="1" max="7" onchange="aggiungiCampiScheda()" required><br><br>
-
-        <div id="schede_container">
-            <!-- Qui saranno inseriti dinamicamente i campi per le schede -->
-        </div>
-
-        <input type="submit" value="Inserisci Allenamento">
-    </form>
+ 
+<body class="bg-gray-100 py-8">
+<div class="max-w-lg mx-auto bg-white p-8 rounded shadow">
+<h1 class="text-2xl font-bold mb-4">Inserisci Allenamento</h1>
+<form action="/inserisci_allenamento" method="POST">
+<label for="obiettivo_allenamento" class="block mb-1">Obiettivo Allenamento:</label>
+<input type="text" id="obiettivo_allenamento" name="obiettivo_allenamento" required class="w-full px-3 py-2 mb-4 border rounded-md">
+ 
+            <label for="num_schede" class="block mb-1">Numero di Schede (max 7):</label>
+<input type="number" id="num_schede" name="num_schede" min="1" max="7" onchange="aggiungiCampiScheda()" required class="w-full px-3 py-2 mb-4 border rounded-md">
+ 
+            <div id="schede_container">
+<!-- Qui saranno inseriti dinamicamente i campi per le schede -->
+</div>
+ 
+            <input type="submit" value="Inserisci Allenamento" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer hover:bg-blue-600">
+</form>
+</div>
 </body>
+ 
 </html>

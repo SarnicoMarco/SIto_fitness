@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dati Utente</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold mb-4">Dati Utente</h1>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Informazioni Utente</h2>
+                <table class="w-full">
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">ID Utente</td>
+                            <td class="px-4 py-2">{{ utente['ID_utente'] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">Nome</td>
+                            <td class="px-4 py-2">{{ utente['nome'] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">Cognome</td>
+                            <td class="px-4 py-2">{{ utente['cognome'] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">Email</td>
+                            <td class="px-4 py-2">{{ utente['email'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Informazioni Account</h2>
+                <table class="w-full">
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">ID Account</td>
+                            <td class="px-4 py-2">{{ account['ID_account'] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">Password Hash</td>
+                            <td class="px-4 py-2">{{ account['password_hash'] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">ID Utente</td>
+                            <td class="px-4 py-2">{{ account['ID_utente'] }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 font-semibold">Nome Utente</td>
+                            <td class="px-4 py-2">{{ account['nomeutente'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
