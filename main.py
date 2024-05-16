@@ -299,6 +299,21 @@ def utente():
     # Renderizza la pagina HTML con i dati dell'utente e dell'account
     return render_template('utente.html', utente=utente, account=account)
 
+
+def get_prodotti():
+    conn = sq.connect('db.sqlite3')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Prodotto")
+    prodotti = cursor.fetchall()
+    conn.close()
+    return prodotti
+
+@app.route('/shop')
+def shop():
+    prodotti = get_prodotti()
+    return render_template('shop.html', prodotti=prodotti)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
