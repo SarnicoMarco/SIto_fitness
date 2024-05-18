@@ -1,51 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mostra Allenamenti</title>
+    <title>Visualizza Allenamenti</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Allenamenti</h1>
-    <ul>
-        {% for allenamento in allenamenti %}
-            <li>
-                <strong>ID Allenamento:</strong> {{ allenamento['ID_allenamento'] }}<br>
-                <strong>ID Account:</strong> {{ allenamento['ID_account'] }}<br>
-                <strong>Obiettivo Allenamento:</strong> {{ allenamento['obbiettivo_allenamento'] }}<br>
-                <strong>Numero di Schede:</strong> {{ allenamento['num_schede'] }}<br>
-                {% if allenamento['schede'] %}
-                    <ul>
-                        {% for scheda in allenamento['schede'] %}
-                            <li>
-                                <strong>ID Scheda:</strong> {{ scheda['ID_scheda'] }}<br>
-                                <strong>Tipo Scheda:</strong> {{ scheda['tipo_scheda'] }}<br>
-                                <strong>ID Allenamento:</strong> {{ scheda['ID_allenamento'] }}<br>
-                                {% if scheda['esercizi'] %}
-                                    <ul>
-                                        {% for esercizio in scheda['esercizi'] %}
-                                            <li>
-                                                <strong>ID Esercizio:</strong> {{ esercizio['id_esercizio'] }}<br>
-                                                <strong>Nome Esercizio:</strong> {{ esercizio['nome_esercizio'] }}<br>
-                                                <strong>ID Scheda:</strong> {{ esercizio['ID_scheda'] }}<br>
-                                                <strong>Numero di Serie:</strong> {{ esercizio['n_serie'] }}<br>
-                                                <strong>Numero di Ripetizioni:</strong> {{ esercizio['n_ripetizioni'] }}<br>
-                                                <strong>Tempo Fase Concentrica:</strong> {{ esercizio['tempo_fase_concentrica'] }}<br>
-                                                <strong>Tempo Fase Eccentrica:</strong> {{ esercizio['tempo_fase_eccentrica'] }}<br>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% else %}
-                                    <p>Nessun esercizio disponibile per questa scheda.</p>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>Nessuna scheda disponibile per questo allenamento.</p>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">I tuoi allenamenti</h1>
+        {% if allenamenti_dettagliati %}
+            {% for dettagli in allenamenti_dettagliati %}
+                <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+                    <h2 class="text-2xl font-semibold mb-4">Allenamento</h2>
+                    <p class="mb-2"><strong>Obiettivo:</strong> {{ dettagli.allenamento[2] }}</p>
+                    <p class="mb-4"><strong>Numero di Schede:</strong> {{ dettagli.allenamento[3] }}</p>
+
+                    {% for scheda in dettagli.schede %}
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <h3 class="text-xl font-medium mb-2">Scheda</h3>
+                            <p class="mb-2"><strong>Tipo:</strong> {{ scheda.scheda[1] }}</p>
+
+                            {% for esercizio in scheda.esercizi %}
+                                <div class="bg-gray-100 p-2 rounded-lg mb-2">
+                                    <h4 class="text-lg font-medium mb-1">Esercizio</h4>
+                                    <p class="mb-1"><strong>Nome:</strong> {{ esercizio[1] }}</p>
+                                    <p class="mb-1"><strong>Numero di Serie:</strong> {{ esercizio[3] }}</p>
+                                    <p class="mb-1"><strong>Numero di Ripetizioni:</strong> {{ esercizio[4] }}</p>
+                                    <p class="mb-1"><strong>Tempo Fase Concentrica:</strong> {{ esercizio[5] }} sec</p>
+                                    <p class="mb-1"><strong>Tempo Fase Eccentrica:</strong> {{ esercizio[6] }} sec</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Non ci sono allenamenti da mostrare.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

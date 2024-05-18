@@ -208,46 +208,48 @@ def get_account_id(username):
 def inserisci_allenamento():
     conn = sq.connect('db.sqlite3')
     cursor = conn.cursor()
-    if request.method == 'POST':
-        # Recupera l'ID dell'account dalla sessione
-        id_allenamento=generate_id()
-        id_account = session.get('account_id')
-        # Inserisci l'allenamento nel database
-        obiettivo_allenamento = request.form['obiettivo_allenamento']
-        num_schede = int(request.form['num_schede'])
-        cursor.execute("INSERT INTO Allenamento (ID_allenamento, ID_account, obbiettivo_allenamento, num_schede) VALUES (?,?, ?, ?)",
-                       (id_allenamento,id_account, obiettivo_allenamento, num_schede))
-        conn.commit()
-
-        # Ottieni l'ID dell'allenamento appena inserito
-        id_allenamento = cursor.lastrowid
-
-        # Inserisci le schede per l'allenamento
-        for i in range(1, num_schede + 1):
-            id_scheda=generate_id()
-            tipo_scheda = request.form[f'tipo_scheda_{i}']
-            cursor.execute("INSERT INTO Scheda (ID_scheda,tipo_scheda, ID_allenamento) VALUES (?, ?, ?)",
-                           (id_scheda,tipo_scheda, id_allenamento))
+    try:
+        if request.method == 'POST':
+            # Recupera l'ID dell'account dalla sessione
+            id_allenamento = generate_id()
+            id_account = session.get('account_id')
+            # Inserisci l'allenamento nel database
+            obiettivo_allenamento = request.form['obiettivo_allenamento']
+            num_schede = int(request.form['num_schede'])
+            cursor.execute("INSERT INTO Allenamento (ID_allenamento, ID_account, obbiettivo_allenamento, num_schede) VALUES (?, ?, ?, ?)",
+                           (id_allenamento, id_account, obiettivo_allenamento, num_schede))
             conn.commit()
-            id_scheda = cursor.lastrowid
 
-            # Inserisci gli esercizi per la scheda
-            num_esercizi = int(request.form[f'num_esercizi_{i}'])
-            for j in range(1, num_esercizi + 1):
-                id_esercizio=generate_id()
-                nome_esercizio = request.form[f'nome_esercizio_{i}_{j}']
-                n_serie = request.form[f'n_serie_{i}_{j}']
-                n_ripetizioni = request.form[f'n_ripetizioni_{i}_{j}']
-                tempo_fase_concentrica = request.form[f'tempo_fase_concentrica_{i}_{j}']
-                tempo_fase_eccentrica = request.form[f'tempo_fase_eccentrica_{i}_{j}']
-                cursor.execute("INSERT INTO Esercizio (id_esercizio,nome_esercizio, ID_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica) VALUES (?,?, ?, ?, ?, ?, ?)",
-                               (id_esercizio,nome_esercizio, id_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica))
+            # Inserisci le schede per l'allenamento
+            for i in range(1, num_schede + 1):
+                id_scheda = generate_id()
+                tipo_scheda = request.form[f'tipo_scheda_{i}']
+                cursor.execute("INSERT INTO Scheda (ID_scheda, tipo_scheda, ID_allenamento) VALUES (?, ?, ?)",
+                               (id_scheda, tipo_scheda, id_allenamento))
                 conn.commit()
 
-        return redirect('home')  # Reindirizza alla dashboard dopo l'inserimento
+                # Inserisci gli esercizi per la scheda
+                num_esercizi = int(request.form[f'num_esercizi_{i}'])
+                for j in range(1, num_esercizi + 1):
+                    id_esercizio = generate_id()
+                    nome_esercizio = request.form[f'nome_esercizio_{i}_{j}']
+                    n_serie = request.form[f'n_serie_{i}_{j}']
+                    n_ripetizioni = request.form[f'n_ripetizioni_{i}_{j}']
+                    tempo_fase_concentrica = request.form[f'tempo_fase_concentrica_{i}_{j}']
+                    tempo_fase_eccentrica = request.form[f'tempo_fase_eccentrica_{i}_{j}']
+                    cursor.execute("INSERT INTO Esercizio (id_esercizio, nome_esercizio, ID_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                   (id_esercizio, nome_esercizio, id_scheda, n_serie, n_ripetizioni, tempo_fase_concentrica, tempo_fase_eccentrica))
+                    conn.commit()
 
-    else:
-        return render_template('inserisci_allenamento.html')
+            return redirect('home')  # Reindirizza alla dashboard dopo l'inserimento
+
+    except Exception as e:
+        conn.rollback()
+        print(f"Si è verificato un errore: {e}")
+    finally:
+        conn.close()
+
+    return render_template('inserisci_allenamento.html')
 
 
 @app.route('/logout')
@@ -312,6 +314,49 @@ def get_prodotti():
 def shop():
     prodotti = get_prodotti()
     return render_template('shop.html', prodotti=prodotti)
+
+
+
+
+@app.route('/mostra_allenamenti', methods=['GET'])
+def mostra_allenamenti():
+    conn = sq.connect('db.sqlite3')
+    cursor = conn.cursor()
+    try:
+        id_account = session.get('account_id')
+
+        cursor.execute("SELECT * FROM Allenamento WHERE ID_account = ?", (id_account,))
+        allenamenti = cursor.fetchall()
+
+        allenamenti_dettagliati = []
+        for allenamento in allenamenti:
+            id_allenamento = allenamento[0]
+            cursor.execute("SELECT * FROM Scheda WHERE id_allenamento = ?", (id_allenamento,))
+            schede = cursor.fetchall()
+
+            schede_dettagliate = []
+            for scheda in schede:
+                id_scheda = scheda[0]
+                cursor.execute("SELECT * FROM Esercizio WHERE id_scheda = ?", (id_scheda,))
+                esercizi = cursor.fetchall()
+                schede_dettagliate.append({
+                    'scheda': scheda,
+                    'esercizi': esercizi
+                })
+
+            allenamenti_dettagliati.append({
+                'allenamento': allenamento,
+                'schede': schede_dettagliate
+            })
+
+        return render_template('mostra_allenamenti.html', allenamenti_dettagliati=allenamenti_dettagliati)
+
+    except Exception as e:
+        print(f"Si è verificato un errore: {e}")
+    finally:
+        conn.close()
+    return render_template('mostra_allenamenti.html', allenamenti_dettagliati=[])
+
 
 
 if __name__ == '__main__':
