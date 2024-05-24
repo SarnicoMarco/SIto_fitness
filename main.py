@@ -434,7 +434,7 @@ def rimuovi_dal_carrello():
             conn.commit()
             conn.close()
 
-            return redirect(url_for('carrello'))  # Reindirizza alla pagina del carrello dopo la rimozione
+            return redirect(url_for('visualizza_carrello'))    # Reindirizza alla pagina del carrello dopo la rimozione
         
 
 
