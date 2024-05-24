@@ -3,127 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
     <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
-    
-
-<button data-drawer-target="separator-sidebar" data-drawer-toggle="separator-sidebar" aria-controls="separator-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-    <span class="sr-only">Open sidebar</span>
-    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-    </svg>
- </button>
+    <!-- Sidebar -->
+    <button data-drawer-target="separator-sidebar" data-drawer-toggle="separator-sidebar" aria-controls="separator-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        </svg>
+    </button>
  
- <aside id="separator-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-       <ul class="space-y-2 font-medium">
-          <li>
-            <span class="ms-3"><a href="/shop">Shop</a></span>
-          </li>
-          
-          <li>
-            <span class="ms-3"><a href="/utente">User</a></span>
-          </li>
-          
-       </ul>
-       <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-          <li>
-             <a href="#" class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
-                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 17 20">
-                   <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
-                </svg>
-                <span class="ms-3"><a href="/logout">Log-Out</a></span>
-             </a>
-          </li>
-          
-          <li>
-             <a href="#" class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
-                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                   <path d="M18 0H6a2 2 0 0 0-2 2h14v12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Z"/>
-                   <path d="M14 4H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM2 16v-6h12v6H2Z"/>
-                </svg>
-                <span class="ms-3">Option</span>
-             </a>
-          </li>
-          
-          <li>
-       </ul>
-    </div>
- </aside>
+    <aside id="separator-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <ul class="space-y-2 font-medium">
+                <li><a href="/shop" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">Shop</a></li>
+                <li><a href="/utente" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">User</a></li>
+            </ul>
+            <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+                <li><a href="/logout" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">Log-Out</a></li>
+               
+            </ul>
+        </div>
+    </aside>
 
+    <!-- Content -->
     <div class="p-4 sm:ml-64">
+        <!-- Header -->
         <div class="bg-blue-600 text-white shadow-md">
             <div class="container mx-auto">
                 <div class="flex justify-center items-center py-2 px-4">
-                    <h1 class="text-xl font-semibold">Benvenuto, 
-                        {% if 'username' in session %}
-                            {{ session['username'] }}!
-                        {% else %}
-                            Ospite!
-                        {% endif %}
-                    </h1>
-                    <div class="flex space-x-4">
-                        
-                    </div>
+                    <h1 class="text-xl font-semibold">Benvenuto, {% if 'username' in session %}{{ session['username'] }}!{% else %}Ospite!{% endif %}</h1>
+                    <div class="flex space-x-4"></div>
                 </div>
             </div>
         </div>
+        
+        <!-- Main Content -->
         <div class="p-4 border-2 rounded-lg dark:border-gray-700">
             <div class="grid grid-cols-3 gap-4 mb-4">
-               <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-                  <a href="/inserisci_allenamento" class="flex items-center justify-center h-full w-full">
-                      <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
-                      <span class="relative z-10 text-white text-2xl font-bold">Aggiungi scheda</span>
-                  </a>
-              </div>
-              
-              <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-               <a href="/mostra_allenamenti" class="flex items-center justify-center h-full w-full">
-                   <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
-                   <span class="relative z-10 text-white text-2xl font-bold">Elenco allenamenti</span>
-               </a>
-           </div>
-           
-
-           <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-            <a href="/gruppi" class="flex items-center justify-center h-full w-full">
-                <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
-                <span class="relative z-10 text-white text-2xl font-bold">gruppi</span>
-            </a>
-            </div>
-        
-
-            <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-               <a href="/classifica_pr" class="flex items-center justify-center h-full w-full">
-                   <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
-                   <span class="relative z-10 text-white text-2xl font-bold">Classifica PR</span>
-               </a>
-           </div>
-           
-           <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-            <a href="/aggiungi_PR" class="flex items-center justify-center h-full w-full">
-                <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
-                <span class="relative z-10 text-white text-2xl font-bold">Aggiungi PR</span>
-            </a>
-        </div>
-        
-        <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-         <a href="/mostra_pr" class="flex items-center justify-center h-full w-full">
-             <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
-             <span class="relative z-10 text-white text-2xl font-bold">PR personali</span>
-         </a>
-     </div>
-     
-               </div>
-
-               
-            </div>
+                <!-- Sample Cards -->
+                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+                    <a href="/inserisci_allenamento" class="flex items-center justify-center h-full w-full">
+                        <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                        <span class="relative z-10 text-white text-2xl font-bold">Aggiungi scheda</span>
+                    </a>
+                </div>
+                <!-- Repeat for other cards -->
+                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+                    <a href="/mostra_allenamenti" class="flex items-center justify-center h-full w-full">
+                        <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                        <span class="relative z-10 text-white text-2xl font-bold">Elenco allenamenti</span>
+                    </a>
+                </div>
+                
+                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+                    <a href="/classifica_pr" class="flex items-center justify-center h-full w-full">
+                        <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                        <span class="relative z-10 text-white text-2xl font-bold">Classifica PR</span>
+                    </a>
+                </div>
+                <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+                  <a href="/aggiungi_PR" class="flex items-center justify-center h-full w-full">
+                     <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                     <span class="relative z-10 text-white text-2xl font-bold">Aggiungi PR</span>
+                 </a>
+             </div>
+             <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+                 <a href="/mostra_pr" class="flex items-center justify-center h-full w-full">
+                     <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                     <span class="relative z-10 text-white text-2xl font-bold">PR personali</span>
+                 </a>
+             </div>
          </div>
-      </div>
-    </div>
-
+     </div>
+ </div>
 </body>
 </html>

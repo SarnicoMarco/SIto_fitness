@@ -310,12 +310,6 @@ def get_prodotti():
     conn.close()
     return prodotti
 
-@app.route('/shop')
-def shop():
-    prodotti = get_prodotti()
-    return render_template('shop.html', prodotti=prodotti)
-
-
 
 
 @app.route('/mostra_allenamenti', methods=['GET'])
@@ -359,6 +353,103 @@ def mostra_allenamenti():
 
 
 
+@app.route('/carrello')
+def visualizza_carrello():
+    # Ottieni i prodotti nel carrello dell'utente corrente
+    prodotti_carrello = []
+    account_id = session.get('account_id')
+    if account_id:
+        conn = sq.connect('db.sqlite3')
+        cur = conn.cursor()
+        cur.execute("SELECT Path FROM Carrello WHERE ID_account = ?", (account_id,))
+        prodotti_carrello_paths = cur.fetchall()
+        for path in prodotti_carrello_paths:
+            prodotto = get_prodotto_by_path(path[0])
+            if prodotto:
+                prodotti_carrello.append(prodotto)
+        conn.close()
+
+    return render_template('carrello.html', prodotti_carrello=prodotti_carrello)
+
+
+@app.route('/shop')
+def shop():
+    # Ottieni tutti i prodotti dal database
+    prodotti = get_prodotti()
+
+    # Ottieni i prodotti nel carrello dell'utente corrente
+    prodotti_carrello = []
+    account_id = session.get('account_id')
+    if account_id:
+        conn = sq.connect('db.sqlite3')
+        cur = conn.cursor()
+        cur.execute("SELECT Path FROM Carrello WHERE ID_account = ?", (account_id,))
+        prodotti_carrello_paths = cur.fetchall()
+        for path in prodotti_carrello_paths:
+            prodotto = get_prodotto_by_path(path[0])
+            if prodotto:
+                prodotti_carrello.append(prodotto)
+        conn.close()
+
+    return render_template('shop.html', prodotti=prodotti, prodotti_carrello=prodotti_carrello)
+
+
+@app.route('/aggiungi_al_carrello', methods=['POST'])
+def aggiungi_al_carrello():
+    if request.method == 'POST':
+        # Ottenere il percorso del prodotto dalla richiesta POST
+        path_prodotto = request.form['path']
+        account_id = session.get('account_id')  # Recupera l'ID dell'account dalla sessione
+
+        try:
+            # Connetti al database
+            conn = sq.connect('db.sqlite3')
+            cur = conn.cursor()
+
+            # Inserisci il prodotto nel carrello
+            cur.execute("INSERT INTO Carrello (ID_account, Path) VALUES (?, ?)", (account_id, path_prodotto))
+            conn.commit()
+            conn.close()
+
+            return redirect(url_for('shop'))  # Reindirizza alla pagina dello shop dopo l'aggiunta al carrello
+        except Exception as e:
+            # Gestisci eventuali errori
+            print("Errore durante l'aggiunta al carrello:", str(e))
+            return "Errore durante l'aggiunta al carrello"
+
+
+@app.route('/rimuovi_dal_carrello', methods=['POST'])
+def rimuovi_dal_carrello():
+    if request.method == 'POST':
+        try:
+            # Ottenere il percorso del prodotto dalla richiesta POST
+            path_prodotto = request.form['path']
+            account_id = session.get('account_id')  # Recupera l'ID dell'account dalla sessione
+            
+            # Connessione al database
+            conn = sq.connect('db.sqlite3')
+            cur = conn.cursor()
+
+            # Rimuovi il prodotto dal carrello
+            cur.execute("DELETE FROM Carrello WHERE ID_account=? AND Path=?", (account_id, path_prodotto))
+            conn.commit()
+            conn.close()
+
+            return redirect(url_for('carrello'))  # Reindirizza alla pagina del carrello dopo la rimozione
+        
+
+
+def get_prodotto_by_path(path):
+    try:
+        conn = sq.connect('db.sqlite3')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM Prodotto WHERE Path = ?", (path,))
+        prodotto = cur.fetchone()
+        conn.close()
+        return prodotto
+    except Exception as e:
+        print("Errore durante il recupero del prodotto dal percorso:", str(e))
+        return None
 
 
 if __name__ == '__main__':

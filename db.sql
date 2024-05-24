@@ -10,9 +10,9 @@ CREATE TABLE IF NOT EXISTS Utente (
 CREATE TABLE IF NOT EXISTS Account (
     ID_account INT PRIMARY KEY,
     password_hash VARCHAR(100),
-    ID_gruppo INT,
     ID_utente INT,
     nomeutente VARCHAR(50),
+    ID_gruppo INTEGER,
     FOREIGN KEY (ID_utente) REFERENCES Utente(ID_utente)
 );
 
@@ -62,5 +62,15 @@ CREATE TABLE IF NOT EXISTS Prodotto (
     Prezzo float,
     nome VARCHAR(50),
     marca VARCHAR(50)
+);
+
+
+-- Creazione della tabella Gruppo
+CREATE TABLE IF NOT EXISTS Carrello (
+    ID_carrello INT PRIMARY KEY,
+    ID_account INT,
+    Path VARCHAR(50),
+    FOREIGN KEY (Path) REFERENCES Prodotto(Path),
+    FOREIGN KEY (ID_account) REFERENCES Account(ID_account)
 );
 
