@@ -421,7 +421,6 @@ def aggiungi_al_carrello():
 @app.route('/rimuovi_dal_carrello', methods=['POST'])
 def rimuovi_dal_carrello():
     if request.method == 'POST':
-        try:
             # Ottenere il percorso del prodotto dalla richiesta POST
             path_prodotto = request.form['path']
             account_id = session.get('account_id')  # Recupera l'ID dell'account dalla sessione
