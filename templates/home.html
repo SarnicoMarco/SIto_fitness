@@ -73,48 +73,52 @@
         </div>
         <div class="p-4 border-2 rounded-lg dark:border-gray-700">
             <div class="grid grid-cols-3 gap-4 mb-4">
-               <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                <button class="text-2xl text-gray-400 dark:text-gray-500">
-                    <a href="/inserisci_allenamento">Aggingi scheda</a>
-                </button>
-               </div>
-               <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                  <p class="text-2xl text-gray-400 dark:text-gray-500">
-                     <button class="text-2xl text-gray-400 dark:text-gray-500">
-                        <a href="/mostra_allenamenti">Elenco allenamenti</a>
-                    </button>
-                  </p>
-               </div>
-               <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                  <p class="text-2xl text-gray-400 dark:text-gray-500">
-                     <button class="text-2xl text-gray-400 dark:text-gray-500">
-                        <a href="/group">Group</a>
-                     </button>
-                  </p>
-               </div>
+               <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+                  <a href="/inserisci_allenamento" class="flex items-center justify-center h-full w-full">
+                      <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                      <span class="relative z-10 text-white text-2xl font-bold">Aggiungi scheda</span>
+                  </a>
+              </div>
+              
+              <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+               <a href="/mostra_allenamenti" class="flex items-center justify-center h-full w-full">
+                   <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                   <span class="relative z-10 text-white text-2xl font-bold">Elenco allenamenti</span>
+               </a>
+           </div>
+           
+
+           <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+            <a href="/gruppi" class="flex items-center justify-center h-full w-full">
+                <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                <span class="relative z-10 text-white text-2xl font-bold">gruppi</span>
+            </a>
             </div>
-            <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-               <p class="text-2xl text-gray-400 dark:text-gray-500">
-                  <button class="text-2xl text-gray-400 dark:text-gray-500">
-                     <a href="/classifica_pr">Classifica</a>
-                  </button>
-               </p>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mb-4">
-               <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-                  <p class="text-2xl text-gray-400 dark:text-gray-500">
-                     <button class="text-2xl text-gray-400 dark:text-gray-500">
-                        <a href="/aggiungi_PR">aggiungi PR</a>
-                     </button>
-                  </p>
+        
+
+            <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+               <a href="/classifica_pr" class="flex items-center justify-center h-full w-full">
+                   <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                   <span class="relative z-10 text-white text-2xl font-bold">Classifica PR</span>
+               </a>
+           </div>
+           
+           <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+            <a href="/aggiungi_PR" class="flex items-center justify-center h-full w-full">
+                <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+                <span class="relative z-10 text-white text-2xl font-bold">Aggiungi PR</span>
+            </a>
+        </div>
+        
+        <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+         <a href="/mostra_pr" class="flex items-center justify-center h-full w-full">
+             <img src="../static/img/ag.jpg" alt="Icona Aggiungi Scheda" class="absolute inset-0 w-full h-full object-cover">
+             <span class="relative z-10 text-white text-2xl font-bold">PR personali</span>
+         </a>
+     </div>
+     
                </div>
-               <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-                  <p class="text-2xl text-gray-400 dark:text-gray-500">
-                     <button class="text-2xl text-gray-400 dark:text-gray-500">
-                        <a href="/mostra_pr">mostra PR</a>
-                     </button>
-                  </p>
-               </div>
+
                
             </div>
          </div>

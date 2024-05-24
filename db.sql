@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS Utente (
 CREATE TABLE IF NOT EXISTS Account (
     ID_account INT PRIMARY KEY,
     password_hash VARCHAR(100),
+    ID_gruppo INT,
     ID_utente INT,
     nomeutente VARCHAR(50),
     FOREIGN KEY (ID_utente) REFERENCES Utente(ID_utente)
